@@ -1,11 +1,9 @@
 import java.util.Collection;
-import java.util.Random;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class OurAgent implements Agent
 {
-	private Random random = new Random();
 
 	private String role;
 	private int playclock;

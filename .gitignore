@@ -1,4 +1,5 @@
 *.class
+*.swo
 *.swp
 
 # Package Files #
