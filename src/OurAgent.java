@@ -31,10 +31,13 @@ public class OurAgent implements Agent
 	// lastDrop is 0 for the first call of nextAction (no action has been executed),
 	// otherwise it is a number n with 0<n<8 indicating the column that the last piece was dropped in by the player whose turn it was
     public String nextAction(int lastDrop) { 
-		if(myTurn)
-			s = s.next_state(lastDrop, notRole);
-		else
-			s = s.next_state(lastDrop, role);
+		if(lastDrop)
+		{
+			if(myTurn)
+				s = s.next_state(lastDrop, notRole);
+			else
+				s = s.next_state(lastDrop, role);
+		}
 
 		myTurn = !myTurn;
 
