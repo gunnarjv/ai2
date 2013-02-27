@@ -4,8 +4,7 @@ import java.util.regex.Pattern;
 
 public class OurAgent implements Agent
 {
-
-	private String role; //TODO setja upp i environment til ad nota i ab?
+	private String role;
 	private int playclock;
 	private boolean myTurn;
 	private State s = new State();

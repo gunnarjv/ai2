@@ -10,9 +10,16 @@ public class State
 		return new List<Int>;
 	}
 
-	public State next_state(int move)
+	// Returns a state as if 'move' was made.
+	public State next_state(int move, String role)
 	{
 		return new State();
+	}
+
+	// Updates this state after a move.
+	public void move(String role)
+	{
+		return;
 	}
 
 	public boolean equals(Object other)
