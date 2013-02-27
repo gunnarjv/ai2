@@ -2,6 +2,8 @@ import java.util.*
 
 public class State
 {
+	
+
 	long white = 0;
 	long red = 0;
 
