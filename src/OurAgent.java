@@ -37,7 +37,6 @@ public class OurAgent implements Agent
 			s = s.next_state(lastDrop, role);
 
 		myTurn = !myTurn;
-		// TODO: 2. run alpha-beta search to determine the best move
 
 		if (myTurn) {
 			return "(DROP " + ab.search(s) + ")";
