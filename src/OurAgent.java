@@ -5,9 +5,10 @@ import java.util.regex.Pattern;
 public class OurAgent implements Agent
 {
 
-	private String role;
+	private String role; //TODO setja upp i environment til ad nota i ab?
 	private int playclock;
 	private boolean myTurn;
+	private State s = new State();
 	
 	/*
 		init(String role, int playclock) is called once before you have to select the first action. Use it to initialize the agent. role is either "WHITE" or "RED" and playclock is the number of seconds after which nextAction must return.
