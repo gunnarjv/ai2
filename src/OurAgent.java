@@ -9,6 +9,7 @@ public class OurAgent implements Agent
 	private int playclock;
 	private boolean myTurn;
 	private State s = new State();
+	private Ab ab;
 	
 	/*
 		init(String role, int playclock) is called once before you have to select the first action. Use it to initialize the agent. role is either "WHITE" or "RED" and playclock is the number of seconds after which nextAction must return.
