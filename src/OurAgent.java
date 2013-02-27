@@ -5,6 +5,7 @@ import java.util.regex.Pattern;
 public class OurAgent implements Agent
 {
 	private String role;
+	private String notRole;
 	private int playclock;
 	private boolean myTurn;
 	private State s = new State();
@@ -14,21 +15,32 @@ public class OurAgent implements Agent
 	*/
     public void init(String role, int playclock) {
 		this.role = role;
+
+		if role.equals("WHITE")
+			notRole = "RED";
+		else
+			notRole = "WHITE";
+
 		this.playclock = playclock;
+
+		ab = new Ab(playclock);
+
 		myTurn = !role.equals("WHITE");
-		// TODO: add your own initialization code here
     }
 
 	// lastDrop is 0 for the first call of nextAction (no action has been executed),
 	// otherwise it is a number n with 0<n<8 indicating the column that the last piece was dropped in by the player whose turn it was
     public String nextAction(int lastDrop) { 
-		// TODO: 1. update your internal world model according to the action that was just executed
-		
+		if(myTurn)
+			s = s.next_state(lastDrop, notRole);
+		else
+			s = s.next_state(lastDrop, role);
+
 		myTurn = !myTurn;
 		// TODO: 2. run alpha-beta search to determine the best move
 
 		if (myTurn) {
-			return "(DROP " + (random.nextInt(7)+1) + ")";
+			return "(DROP " + ab.search(s) + ")";
 		} else {
 			return "NOOP";
 		}
