@@ -60,10 +60,7 @@ public class State
 			}
 			else
 				column_bit *= 2;
-				//System.out.println("red is " + red);
-				//System.out.println("white is " + white);
-				//System.out.println("The column bit is " + column_bit);
-		}
+	}
 
 		System.out.println("An illegal move was made. Exiting.");
 		System.exit(1);
