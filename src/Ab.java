@@ -3,15 +3,19 @@ import java.lang.*
 
 public class Ab
 {
-	private int playclock;
+	private double playclock;
+	private long startTime = 0;
 
 	public Ab(int playclock)
 	{
-		this.playclock = playclock;
+		this.playclock = (double)playclock;
 	}
 
 	public int search(State s)
 	{
+		//Take the startTime
+		startTime = System.nanoTime();
+
 		//Call AbSearch for every child of the state with 
 		//increasing depth size and return the best move (column number for best drop)
 
@@ -24,16 +28,28 @@ public class Ab
 		//Get legal moves for the state
 	    List<int> legalMoves = s.get_legal_moves();
 
-	    for(move : legalMoves)
+	    //Iterative deepening loop that increments the maximum depth by 1 in each loop
+	    for(int depth=1; depth < Integer.MAX_VALUE; i++)
 	    {
-			int result = AbSearch(s.next_state(move,true), depth, Integer.MIN_VALUE, Integer.MAX_VALUE, false);
-			
-			//If the result for this child is greater than previous best result
-	    	//make bestMove the new result
-	    	if(result > bestResult)
-				bestMove = move;
-		}
+	    	//Check the timer by calculating elapsed nanotime, converting it to seconds and
+			//comparing with a little bit less time than playclock.. sek = 1*e⁹ nanosek
+	    	if((System.nanoTime - startTime)*Math.Pow(10, 8) >= playclock-1)
+	    		break;
 
+		    for(move : legalMoves)
+		    {
+		    	//We check here as well if the time is almost over
+	    		if((System.nanoTime - startTime)*Math.Pow(10, 8) >= playclock-1)
+	    			break;
+
+				int result = AbSearch(s.next_state(move,true), depth, Integer.MIN_VALUE, Integer.MAX_VALUE, false);
+				
+				//If the result for this child is greater than previous best result
+		    	//make bestMove the new result
+		    	if(result > bestResult)
+					bestMove = move;
+			}
+		}
 		return bestMove;
 	}
 
@@ -44,8 +60,9 @@ public class Ab
 
 	public int AbSearch(State s, int depth, int a, int b, boolean isWhite)
 	{       
-		//Check if we sould go further down the tree TODO: PUT THE TIMER IN THE IF FUNCTION
-	    if(depth == 0 || s.isFinal())
+		//Check if we sould go further down the tree
+		//We also check here as if the time is almost over
+	    if(depth == 0 || s.isFinal() || (System.nanoTime - startTime)*Math.Pow(10, 8) >= playclock-1)
 	        return evaluation(s, isWhite);
 
 	    //Get legal moves for the state
