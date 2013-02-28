@@ -18,10 +18,8 @@ public class Ab
 		//Call AbSearch for every child of the state with 
 		//increasing depth size and return the best move (column number for best drop)
 
-		//The bestMove the player can find for the state
 		int bestMove = 0;
 
-		//The best result returned from search
 		int bestResult = Integer.MIN_VALUE;
 
 	    List<Integer> legalMoves = s.get_legal_moves();
@@ -155,6 +153,11 @@ public class Ab
 		
 		s.red = 0xb00000000000L;
 		System.out.println(ab.evaluate(s, true) + " (2)");
+
+		s.white = 0xb00000000000L;
+		s.red = 0;
+		System.out.println(ab.evaluate(s, true) + " (2)");
+
 
 
 	}
