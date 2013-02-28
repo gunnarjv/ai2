@@ -46,14 +46,14 @@ public class Ab
 		{
 			long mask = 1 << i;
 			// We calculate only for set bits. 
-			if(mask & red == 0)
+			if((mask & red) == 0)
 				continue;
 	
 			// We use unsigned shift to check all adjacent squares.
 			// Because of the buffer, then we do not need to check for edge cases.
 			// The diligent reader can check for himself that this work.
-			if(mask & (  red << 1 | red << 6 | red << 7 | red << 8
-					   | red >>> 1 | red >>> 6 | red >>> 7 | red >>> 8) != 0 )
+			if((mask & (  red << 1 | red << 6 | red << 7 | red << 8
+					   | red >>> 1 | red >>> 6 | red >>> 7 | red >>> 8)) != 0 )
 				redCount++;
 		}
 
