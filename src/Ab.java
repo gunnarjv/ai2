@@ -12,14 +12,31 @@ public class Ab
 
 	public int search(State s)
 	{
-		//Create new node and call AbSearch for every child of the node with increasing depth size
-		//and return the best move (column number for best drop)
+		//Create new node and call AbSearch for every child of the node with 
+		//increasing depth size and return the best move (column number for best drop)
 
-		Node root = new Node()
+		Node root = new Node(s, null);
 
-	    //Initial call
-		int result =AbSearch(origin, depth, -infinity, +infinity, true);
-		return 1;
+		//The bestMove the player can find for the state
+		int bestMove;
+
+		//The best result returned from search
+		int bestResult = Integer.MIN_VALUE;
+
+		//Get legal moves for the state in the node
+	    List<int> legalMoves = node.s.get_legal_moves();
+
+	    for(move : legalMoves)
+	    {
+			int result = AbSearch(root.s.next_state(move), depth, Integer.MIN_VALUE, Integer.MAX_VALUE, true);
+			
+			//If the result for this child is greater than previous best result
+	    	//make bestMove the new result
+	    	if(result > bestResult)
+	    		bestMove = move;
+		}
+
+		return bestMove;
 	}
 
 	public int evaluation(Node node, boolean isWhite)
@@ -29,8 +46,8 @@ public class Ab
 
 	public AbSearch(Node node, int depth, int a, int b, boolean isWhite)
 	{       
-		//Check if we sould go further down the tree
-	    if(depth == 0 || isFinal(node))
+		//Check if we sould go further down the tree TODO: PUT THE TIMER IN THE IF FUNCTION
+	    if(depth == 0 || node.s.isFinal())
 	        return evaluation(node, isWhite);
 
 	    //Get legal moves for the state in the node
@@ -78,11 +95,5 @@ public class Ab
 	    
 	    	return b; 
 		}
-	}
-
-	public boolean isFinal(node)
-	{
-		//Check if this node is a final node for either player
-		return true;
 	}
 }
