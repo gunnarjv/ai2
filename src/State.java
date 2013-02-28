@@ -24,13 +24,15 @@ public class State
 		List<Integer> moves = new ArrayList<Integer>();
 		int shift = 7;
 
-		if((board & 1 << 5) != 0) moves.add(1);
-		if((board & 1 << shift+5) != 0) moves.add(2);
-		if((board & 1 << shift*2+5) != 0) moves.add(3);
-		if((board & 1 << shift*3+5) != 0) moves.add(4);
-		if((board & 1 << shift*4+5) != 0) moves.add(5);
-		if((board & 1 << shift*5+5) != 0) moves.add(6);
-		if((board & 1 << shift*6+5) != 0) moves.add(7);
+		System.out.println((board & 1 << 5) != 0);
+
+		if((board & 1 << 5) == 0) moves.add(1);
+		if((board & 1 << shift+5) == 0) moves.add(2);
+		if((board & 1 << shift*2+5) == 0) moves.add(3);
+		if((board & 1 << shift*3+5) == 0) moves.add(4);
+		if((board & 1 << shift*4+5) == 0) moves.add(5);
+		if((board & 1 << shift*5+5) == 0) moves.add(6);
+		if((board & 1 << shift*6+5) == 0) moves.add(7);
 
 		return moves;
 	}
@@ -52,13 +54,12 @@ public class State
 	}
 
 
-	int main()
+	public static void main(String args[])
 	{
 		State s = new State();
-
-		System.out.println(s.get_legal_moves());
-
-		return 0; 
+		List<Integer> legal = s.get_legal_moves();
+		for(Integer i : legal)
+			System.out.println(i + "");
 	}
 
 }
