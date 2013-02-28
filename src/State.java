@@ -60,14 +60,30 @@ public class State
 			}
 			else
 				column_bit *= 2;
-				//System.out.println("red is " + red);
-				//System.out.println("white is " + white);
-				//System.out.println("The column bit is " + column_bit);
-		}
+	}
 
 		System.out.println("An illegal move was made. Exiting.");
 		System.exit(1);
 		return new State();
+	}
+
+	public boolean isFinal()
+	{
+		// The following is borrowed from John Tromp. http://homepages.cwi.nl/~tromp/c4/fhour.html
+		// It would have taken us some ugly loops to implement this function.
+		long board = red | white;
+
+		long y = board & (board>>6);
+		if ((y & (y >> 2*6)) != 0) // check diagonal \
+			return true;
+		y = board & (board>>7);
+		if ((y & (y >> 2*7)) != 0) // check horizontal -
+			return true;
+		y = board & (board>>8); // check diagonal /
+		if ((y & (y >> 2*8)) != 0)
+			return true;
+		y = board & (board>>1); // check vertical |
+		return (y & (y >> 2)) != 0;
 	}
 
 	public boolean equals(Object other)
@@ -84,7 +100,7 @@ public class State
 	{
 		State s = new State();
 
-		// First test if empty board has every state as legal.
+		// Test get_legal_moves.
 		for(Integer i : s.get_legal_moves())
 			System.out.print(i + " ");
 		System.out.println("\n-> 1 2 3 4 5 6 7 \n");
@@ -94,6 +110,32 @@ public class State
 			System.out.print(i + " ");
 		System.out.println("\n-> 3 4 5 6 7\n");
 
+		s.white = (long)0x1fbf7efdfbfL;
+		for(Integer i : s.get_legal_moves())
+			System.out.print(i + " ");
+		System.out.println("\n->7 \n");
+
+		s.white = 0x1f;
+		s.red = 0;
+		for(Integer i : s.get_legal_moves())
+			System.out.print(i + " ");
+		System.out.println("\n-> 1 2 3 4 5 6 7 \n");
+
+		// Test isFinal.
+		// Vertical.
+		System.out.println("true->" + s.isFinal());
+
+		// None
+		s.white = 0;
+		System.out.println("false->" + s.isFinal());
+
+		// Horizontal
+		s.white = 0x204081;
+		System.out.println("true->" + s.isFinal());
+
+		// Diagonal /
+		s.white = 0x1010101;
+		System.out.println("true->" + s.isFinal());
 	}
 
 }
