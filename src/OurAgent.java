@@ -4,22 +4,20 @@ import java.util.regex.Pattern;
 
 public class OurAgent implements Agent
 {
-	private String role;
-	private String notRole;
+	private boolean isWhite;
 	private int playclock;
 	private boolean myTurn;
 	private State s = new State();
+	private Ab ab;
 	
 	/*
 		init(String role, int playclock) is called once before you have to select the first action. Use it to initialize the agent. role is either "WHITE" or "RED" and playclock is the number of seconds after which nextAction must return.
 	*/
     public void init(String role, int playclock) {
-		this.role = role;
-
 		if role.equals("WHITE")
-			notRole = "RED";
+			this.isWhite = true;
 		else
-			notRole = "WHITE";
+			this.isWhite = false;
 
 		this.playclock = playclock;
 
