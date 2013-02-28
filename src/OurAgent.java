@@ -21,7 +21,7 @@ public class OurAgent implements Agent
 
 		this.playclock = playclock;
 
-		ab = new Ab(playclock);
+		Ab ab = new Ab(playclock);
 
 		myTurn = !role.equals("WHITE");
     }
