@@ -14,7 +14,7 @@ public class OurAgent implements Agent
 		init(String role, int playclock) is called once before you have to select the first action. Use it to initialize the agent. role is either "WHITE" or "RED" and playclock is the number of seconds after which nextAction must return.
 	*/
     public void init(String role, int playclock) {
-		if role.equals("WHITE")
+		if(role.equals("WHITE"))
 			this.isWhite = true;
 		else
 			this.isWhite = false;
@@ -29,12 +29,12 @@ public class OurAgent implements Agent
 	// lastDrop is 0 for the first call of nextAction (no action has been executed),
 	// otherwise it is a number n with 0<n<8 indicating the column that the last piece was dropped in by the player whose turn it was
     public String nextAction(int lastDrop) { 
-		if(lastDrop)
+		if(lastDrop != 0)
 		{
 			if(myTurn)
-				s = s.next_state(lastDrop, notRole);
+				s = s.next_state(lastDrop, !isWhite);
 			else
-				s = s.next_state(lastDrop, role);
+				s = s.next_state(lastDrop, isWhite);
 		}
 
 		myTurn = !myTurn;

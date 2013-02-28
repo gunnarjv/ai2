@@ -29,17 +29,17 @@ public class Ab
 	    List<Integer> legalMoves = s.get_legal_moves();
 
 	    //Iterative deepening loop that increments the maximum depth by 1 in each loop
-	    for(int depth=1; depth < Integer.MAX_VALUE; i++)
+	    for(int depth=1; depth < Integer.MAX_VALUE; depth++)
 	    {
-	    	//Check the timer by calculating elapsed nanotime, converting it to seconds and
+	    	//Check the timer by calculating elapsed nanoTime(), converting it to seconds and
 			//comparing with a little bit less time than playclock.. sek = 1*e⁹ nanosek
-	    	if((System.nanoTime - startTime)*Math.Pow(10, 8) >= playclock-1)
+	    	if((System.nanoTime() - startTime)*Math.pow(10, 8) >= playclock-1)
 	    		break;
 
-		    for(move : legalMoves)
+		    for(int move : legalMoves)
 		    {
 		    	//We check here as well if the time is almost over
-	    		if((System.nanoTime - startTime)*Math.Pow(10, 8) >= playclock-1)
+	    		if((System.nanoTime() - startTime)*Math.pow(10, 8) >= playclock-1)
 	    			break;
 
 				int result = AbSearch(s.next_state(move,true), depth, Integer.MIN_VALUE, Integer.MAX_VALUE, false);
@@ -82,8 +82,8 @@ public class Ab
 	{       
 		//Check if we sould go further down the tree
 		//We also check here as if the time is almost over
-	    if(depth == 0 || s.isFinal() || (System.nanoTime - startTime)*Math.Pow(10, 8) >= playclock-1)
-	        return evaluation(s, isWhite);
+	    if(depth == 0 || s.isFinal() || (System.nanoTime() - startTime)*Math.pow(10, 8) >= playclock-1)
+	        return evaluate(s, isWhite);
 
 	    //Get legal moves for the state
 	    List<Integer> legalMoves = s.get_legal_moves();
