@@ -40,15 +40,24 @@ public class Ab
 	public int evaluation(State s, boolean isWhite)
 	{
 		long red = s.red;
-		long iterator = 1;
 
+		int redCount = 0;
 		for(int i = 0; i < 49; i++)
 		{
-			;
+			long mask = 1 << i;
+			// We calculate only for set bits. 
+			if(mask & red == 0)
+				return;
+	
+			// We use unsigned shift to check all adjacent squares.
+			// Because of the buffer, then we do not need to check for edge cases.
+			// The diligent reader can check for himself that this work.
+			if(mask & (  red << 1 | red << 6 | red << 7 | red << 8
+					   | red >>> 1 | red >>> 6 | red >>> 7 | red >>> 8) != 0 )
+				redCount++;
 		}
 
-		.
-		return 1;
+		return redCount;
 	}
 
 	public int AbSearch(State s, int depth, int a, int b, boolean isWhite)
