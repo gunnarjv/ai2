@@ -13,7 +13,6 @@ public class Ab
 
 	public int search(State s)
 	{
-		//Take the startTime
 		startTime = System.nanoTime();
 
 		//Call AbSearch for every child of the state with 
@@ -25,7 +24,6 @@ public class Ab
 		//The best result returned from search
 		int bestResult = Integer.MIN_VALUE;
 
-		//Get legal moves for the state
 	    List<Integer> legalMoves = s.get_legal_moves();
 
 	    //Iterative deepening loop that increments the maximum depth by 1 in each loop
@@ -44,8 +42,6 @@ public class Ab
 
 				int result = AbSearch(s.next_state(move,true), depth, Integer.MIN_VALUE, Integer.MAX_VALUE, false);
 				
-				//If the result for this child is greater than previous best result
-		    	//make bestMove the new result
 		    	if(result > bestResult)
 					bestMove = move;
 			}
@@ -106,7 +102,6 @@ public class Ab
 	    if(depth == 0 || s.isFinal() || (System.nanoTime() - startTime)*Math.pow(10, 8) >= playclock-1)
 	        return evaluate(s, isWhite);
 
-	    //Get legal moves for the state
 	    List<Integer> legalMoves = s.get_legal_moves();
 
 	    //If player is the first player (WHITE-MAX)
@@ -124,7 +119,6 @@ public class Ab
 
 	        return a;
 	    }
-
 	    //If player is the second player (RED-MIN)
 	    else
 	    {
