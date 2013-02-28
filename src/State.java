@@ -94,6 +94,18 @@ public class State
 			System.out.print(i + " ");
 		System.out.println("\n-> 3 4 5 6 7\n");
 
+		s.white = (long)0x1fbf7efdfbfL;
+		for(Integer i : s.get_legal_moves())
+			System.out.print(i + " ");
+		System.out.println("\n->7 \n");
+
+		s.white = 0x1f;
+		s.red = 0;
+		for(Integer i : s.get_legal_moves())
+			System.out.print(i + " ");
+		System.out.println("\n-> 1 2 3 4 5 6 7 \n");
+
+
 	}
 
 }
