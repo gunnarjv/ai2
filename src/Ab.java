@@ -138,7 +138,7 @@ public class Ab
 		s.red = 0x1009B;
 		System.out.println(ab.evaluate(s, true) + " (5)");
 		
-		s.red = 0x1b00000000000L;
+		s.red = 0xb00000000000L;
 		System.out.println(ab.evaluate(s, true) + " (2)");
 
 
