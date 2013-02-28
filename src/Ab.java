@@ -16,7 +16,7 @@ public class Ab
 		//increasing depth size and return the best move (column number for best drop)
 
 		//The bestMove the player can find for the state
-		int bestMove;
+		int bestMove = 0;
 
 		//The best result returned from search
 		int bestResult = Integer.MIN_VALUE;
@@ -40,15 +40,17 @@ public class Ab
 	public int evaluate(State s, boolean isWhite)
 	{
 		long red = s.red;
-
 		int redCount = 0;
-		for(int i = 0; i < 49; i++)
+
+		for(int i = 0; i < 48; i++) //grid 49 is unused
 		{
-			long mask = 1 << i;
+			long mask = 1L << i;
 			// We calculate only for set bits. 
 			if((mask & red) == 0)
 				continue;
-	
+
+			System.out.println(i);
+
 			// We use unsigned shift to check all adjacent squares.
 			// Because of the buffer, then we do not need to check for edge cases.
 			// The diligent reader can check for himself that this work.
@@ -108,6 +110,20 @@ public class Ab
 		State s = new State(0, 0x1F);
 		Ab ab = new Ab(0);
 
-		ab.evaluate(s, true);
+		System.out.println(ab.evaluate(s, true) + " (5)");
+
+		s.red = 0x1B;
+		System.out.println(ab.evaluate(s, true) + " (4)");
+
+		s.red = 0x9B;
+		System.out.println(ab.evaluate(s, true) + " (5)");
+
+		s.red = 0x1009B;
+		System.out.println(ab.evaluate(s, true) + " (5)");
+		
+		s.red = 0x1b00000000000L;
+		System.out.println(ab.evaluate(s, true) + " (2)");
+
+
 	}
 }
