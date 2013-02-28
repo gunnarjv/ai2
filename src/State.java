@@ -23,17 +23,19 @@ public class State
 		/* We search all bits that represent the top-most lots in the grid.
 		   For each column, if that bit is not set, then we can drop a disc there.
 		 */
+		long one = 1;
 		long board = white | red;
+
 		List<Integer> moves = new ArrayList<Integer>();
 		int shift = 7;
 
-		if((board & 1 << 5) == 0) moves.add(1);
-		if((board & 1 << shift+5) == 0) moves.add(2);
-		if((board & 1 << shift*2+5) == 0) moves.add(3);
-		if((board & 1 << shift*3+5) == 0) moves.add(4);
-		if((board & 1 << shift*4+5) == 0) moves.add(5);
-		if((board & 1 << shift*5+5) == 0) moves.add(6);
-		if((board & 1 << shift*6+5) == 0) moves.add(7);
+		if((board & one << 5) == 0) moves.add(1);
+		if((board & one << shift+5) == 0) moves.add(2);
+		if((board & one << shift*2+5) == 0) moves.add(3);
+		if((board & one << shift*3+5) == 0) moves.add(4);
+		if((board & one << shift*4+5) == 0) moves.add(5);
+		if((board & one << shift*5+5) == 0) moves.add(6);
+		if((board & one << shift*6+5) == 0) moves.add(7);
 
 		return moves;
 	}
@@ -51,13 +53,16 @@ public class State
 		{
 			if((column_bit & board) == 0)
 			{
-/*				if(isWhite)
+				if(isWhite)
 					return new State(column_bit | white, red);
 				else
 					return new State(white, column_bit | red);
-*/			}
+			}
 			else
 				column_bit *= 2;
+				//System.out.println("red is " + red);
+				//System.out.println("white is " + white);
+				//System.out.println("The column bit is " + column_bit);
 		}
 
 		System.out.println("An illegal move was made. Exiting.");
@@ -80,51 +85,14 @@ public class State
 		State s = new State();
 
 		// First test if empty board has every state as legal.
-		List<Integer> legal = s.get_legal_moves();
-		for(Integer i : legal)
+		for(Integer i : s.get_legal_moves())
 			System.out.print(i + " ");
-		System.out.println("");
+		System.out.println("\n-> 1 2 3 4 5 6 7 \n");
 
-		// Then if it is correctly legal after three moves from white.
-		s = s.next_state(1, true);
-		s = s.next_state(1, true);
-		s = s.next_state(1, true);
-
-		legal = s.get_legal_moves();
-		for(Integer i : legal)
+		s.red = 0x1FBF;
+		for(Integer i : s.get_legal_moves())
 			System.out.print(i + " ");
-		System.out.println("");
-
-		// Then if it is incorrectly legal after three more moves from white.
-		s = s.next_state(1, true);
-		s = s.next_state(1, true);
-		s = s.next_state(1, true);
-
-		legal = s.get_legal_moves();
-		for(Integer i : legal)
-			System.out.print(i + " ");
-		System.out.println("");
-
-		// Test the same thing for red
-		s = s.next_state(2, false);
-		s = s.next_state(2, false);
-		s = s.next_state(2, false);
-
-		legal = s.get_legal_moves();
-		for(Integer i : legal)
-			System.out.print(i + " ");
-		System.out.println("");
-
-		// Then if it is incorrectly legal after three more moves from white.
-		s = s.next_state(2, false);
-		s = s.next_state(2, false);
-		s = s.next_state(2, false);
-
-		legal = s.get_legal_moves();
-		for(Integer i : legal)
-			System.out.print(i + " ");
-		System.out.println("");
-		
+		System.out.println("\n-> 3 4 5 6 7\n");
 
 	}
 
