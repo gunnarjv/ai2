@@ -28,7 +28,7 @@ public class Ab
 
 	    for(move : legalMoves)
 	    {
-			int result = AbSearch(root.s.next_state(move), depth, Integer.MIN_VALUE, Integer.MAX_VALUE, true);
+			int result = AbSearch(root.s.next_state(move), depth, Integer.MIN_VALUE, Integer.MAX_VALUE, false);
 			
 			//If the result for this child is greater than previous best result
 	    	//make bestMove the new result
@@ -44,7 +44,7 @@ public class Ab
 		return 1;
 	}
 
-	public AbSearch(Node node, int depth, int a, int b, boolean isWhite)
+	public int AbSearch(Node node, int depth, int a, int b, boolean isWhite)
 	{       
 		//Check if we sould go further down the tree TODO: PUT THE TIMER IN THE IF FUNCTION
 	    if(depth == 0 || node.s.isFinal())
