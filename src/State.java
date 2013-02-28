@@ -13,8 +13,9 @@ public class State
 		this.red = red;
 	}
 
-	public List<Int> get_legal_moves(String role)
+	public List<Int> get_legal_moves()
 	{
+		
 		return new List<Int>;
 	}
 

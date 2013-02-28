@@ -12,4 +12,10 @@ public class Node
 		this.parent = parent;
 		this.value = value;
 	}
+
+	public Node(State s, Node parent)
+	{
+		this.s = s;
+		this.parent = parent;
+	}
 }
