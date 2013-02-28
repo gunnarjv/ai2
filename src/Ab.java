@@ -75,7 +75,28 @@ public class Ab
 				redCount++;
 		}
 
-		return redCount;
+		int whiteCount = 0;
+		long white = s.white;
+
+		for(int i = 0; i < 48; i++) //grid 49 is unused
+		{
+			long mask = 1L << i;
+			// We calculate only for set bits. 
+			if((mask & white) == 0)
+				continue;
+
+			System.out.println(i);
+
+			// We use unsigned shift to check all adjacent squares.
+			// Because of the buffer, then we do not need to check for edge cases.
+			// The diligent reader can check for himself that this work.
+			if((mask & (  white << 1 | white << 6 | white << 7 | white << 8
+					   | white >>> 1 | white >>> 6 | white >>> 7 | white >>> 8)) != 0 )
+				whiteCount++;
+		}
+
+
+		return whiteCount - redCount;
 	}
 
 	public int AbSearch(State s, int depth, int a, int b, boolean isWhite)
