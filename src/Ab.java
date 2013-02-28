@@ -39,8 +39,17 @@ public class Ab
 		return bestMove;
 	}
 
-	public int evaluation(Node node, boolean isWhite)
+	public int evaluation(State s, boolean isWhite)
 	{
+		long red = s.red;
+		long iterator = 1;
+
+		for(int i = 0; i < 49; i++)
+		{
+			;
+		}
+
+		.
 		return 1;
 	}
 

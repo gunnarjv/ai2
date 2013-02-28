@@ -2,6 +2,7 @@ import java.util.*;
 
 public class State
 {
+	// We use bitboards.
 	// LSB is bottom left on board. 
 	// Then comes the bottom left column.
 	// Followed by one unused bit.
@@ -98,6 +99,7 @@ public class State
 
 	public static void main(String args[])
 	{
+		// This code tests the functions.
 		State s = new State();
 
 		// Test get_legal_moves.
