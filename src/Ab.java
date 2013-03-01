@@ -176,6 +176,7 @@ public class Ab
 		s.white = 0xb00000000000L;
 		s.red = 0;
 		System.out.println(ab.evaluate(s) + " (2)");
+<<<<<<< HEAD
 
 
 
