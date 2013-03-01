@@ -44,6 +44,7 @@ public class Ab
 		    	if((System.nanoTime() - startTime)/Math.pow(10, 9) >= playclock-1)
 		    		break;
 
+		    	//Here we start the recursive AbSearch. We do this for each child of root
 				int result = AbSearch(s.next_state(move, isWhite), depth, Integer.MIN_VALUE, Integer.MAX_VALUE, false);
 				
 		    	if(result > bestResult)
@@ -59,8 +60,9 @@ public class Ab
 		}
 		
 	    //Print out state expansions per second
-	    double printStateExp = stateExpansions/((System.nanoTime() - startTime)/Math.pow(10, 9));
-	    System.out.println("State expanions per second: " + printStateExp);
+	    //double printStateExp = stateExpansions/((System.nanoTime() - startTime)/Math.pow(10, 9));
+	    //System.out.println("State expanions per second: " + printStateExp);
+	    
 		return bestMove;
 	}
 

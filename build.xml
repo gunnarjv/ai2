@@ -1,10 +1,10 @@
 <?xml version="1.0"?>
 <project name="ARTI-lab1" basedir="." default="help">
 
-	<property name="student" value="Jon Jonsson" />
+	<property name="student" value="Bjarni og Gunnar" />
 	<property name="mainclass" value="Main" />
 
-	<property name="lab" value="1" />
+	<property name="lab" value="2" />
 
 	<property name="src" value="src"/>
 	<property name="build" value="build"/>
