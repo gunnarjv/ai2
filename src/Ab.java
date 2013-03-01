@@ -5,9 +5,11 @@ public class Ab
 {
 	private double playclock;
 	private long startTime = 0;
+	private boolean isWhite;
 
-	public Ab(int playclock)
+	public Ab(int playclock, boolean isWhite)
 	{
+		this.isWhite = isWhite;
 		this.playclock = (double)playclock;
 	}
 
@@ -29,16 +31,16 @@ public class Ab
 	    {
 	    	//Check the timer by calculating elapsed nanoTime(), converting it to seconds and
 			//comparing with a little bit less time than playclock.. sek = 1*e⁹ nanosek
-	    	if((System.nanoTime() - startTime)*Math.pow(10, 8) >= playclock-1)
+	    	if((System.nanoTime() - startTime)*Math.pow(10, 9) >= playclock-1)
 	    		break;
 
 		    for(int move : legalMoves)
 		    {
 		    	//We check here as well if the time is almost over
-	    		if((System.nanoTime() - startTime)*Math.pow(10, 8) >= playclock-1)
+	    		if((System.nanoTime() - startTime)*Math.pow(10, 9) >= playclock-1)
 	    			break;
 
-				int result = AbSearch(s.next_state(move,true), depth, Integer.MIN_VALUE, Integer.MAX_VALUE, false);
+				int result = AbSearch(s.next_state(move, isWhite), depth, Integer.MIN_VALUE, Integer.MAX_VALUE, false);
 				
 		    	if(result > bestResult)
 					bestMove = move;
@@ -47,7 +49,7 @@ public class Ab
 		return bestMove;
 	}
 
-	public int evaluate(State s, boolean isWhite)
+	public int evaluate(State s)
 	{
 		long red = s.red;
 		int redCount = 0;
@@ -93,31 +95,31 @@ public class Ab
 		return whiteCount - redCount;
 	}
 
-	public int AbSearch(State s, int depth, int a, int b, boolean isWhite)
+	public int AbSearch(State s, int depth, int a, int b, boolean isMax)
 	{       
 		//Check if we sould go further down the tree
 		//We also check here as if the time is almost over
-	    if(depth == 0 || s.isFinal() || (System.nanoTime() - startTime)*Math.pow(10, 8) >= playclock-1)
-	        return evaluate(s, isWhite);
+		System.out.println((System.nanoTime() - startTime)*Math.pow(10, 9));
+	    if(depth == 0 || s.isFinal() || (System.nanoTime() - startTime)*Math.pow(10, 9) >= playclock-1)
+	        return evaluate(s);
 
 	    List<Integer> legalMoves = s.get_legal_moves();
 
-	    //If player is the first player (WHITE-MAX)
-	    if(isWhite)
+	    //If player is the first player (MAX)
+	    if(isMax)
 	    {
 	    	//For each child state calculate alpha value by callin AbSearch recursively
 	    	//and make alpha the largest value of the outcome
 	    	//Then to do the pruning check if a >= b and if so we can break out of the for loop
 	        for(int move : legalMoves)
 	        {
-	            a = Math.max(a, AbSearch(s.next_state(move,true), depth-1, a, b, !isWhite));
+	            a = Math.max(a, AbSearch(s.next_state(move, isWhite), depth-1, a, b, !isMax));
 	            if(b <= a)
 	                break;
 	        }
 
 	        return a;
 	    }
-	    //If player is the second player (RED-MIN)
 	    else
 	    {
 	    	//For each child state calculate alpha value by callin AbSearch recursively
@@ -126,7 +128,7 @@ public class Ab
 	        
 	        for(int move : legalMoves)
 	        {
-	            a = Math.min(b, AbSearch(s.next_state(move,false), depth-1, a, b, !isWhite));
+	            b = Math.min(b, AbSearch(s.next_state(move, !isWhite), depth-1, a, b, !isMax));
 	            if(b <= a)
 	                break;
 	        }
@@ -138,21 +140,21 @@ public class Ab
 	public static void main(String args[])
 	{
 		State s = new State(0, 0x1F);
-		Ab ab = new Ab(0);
+		Ab ab = new Ab(0, true);
 
-		System.out.println(ab.evaluate(s, true) + " (5)");
+		System.out.println(ab.evaluate(s) + " (5)");
 
 		s.red = 0x1B;
-		System.out.println(ab.evaluate(s, true) + " (4)");
+		System.out.println(ab.evaluate(s) + " (4)");
 
 		s.red = 0x9B;
-		System.out.println(ab.evaluate(s, true) + " (5)");
+		System.out.println(ab.evaluate(s) + " (5)");
 
 		s.red = 0x1009B;
-		System.out.println(ab.evaluate(s, true) + " (5)");
+		System.out.println(ab.evaluate(s) + " (5)");
 		
 		s.red = 0xb00000000000L;
-		System.out.println(ab.evaluate(s, true) + " (2)");
+		System.out.println(ab.evaluate(s) + " (2)");
 
 		s.white = 0xb00000000000L;
 		s.red = 0;
