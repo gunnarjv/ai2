@@ -153,11 +153,22 @@ public class Ab
 	}
 
 
-/*	public static void main(String args[])
+	public static void main(String args[])
 	{
-		State s = new State(0, 0x1F);
-		Ab ab = new Ab(0, true);
+		State s = new State(0, 0);
+		Ab ab = new Ab(10, true);		
+		Scanner input = new Scanner(System.in);
 
+		for(int i = 0; i < 6; i++)
+			s = s.next_state(input.nextInt(), i % 2 == 0);
+
+		System.out.println("next move is: " + ab.search(s));
+		//System.out.println("White: " + Long.toBinaryString(s.white));
+		//System.out.println("Red: " + Long.toBinaryString(s.red));
+		System.out.println("Both: " + Long.toBinaryString(s.white | s.red));
+
+
+/*
 		System.out.println(ab.evaluate(s) + " (5)");
 
 		s.red = 0x1B;
@@ -175,9 +186,6 @@ public class Ab
 		s.white = 0xb00000000000L;
 		s.red = 0;
 		System.out.println(ab.evaluate(s) + " (2)");
-<<<<<<< HEAD
-
-
-
-	} */
+*/
+	}
 }
