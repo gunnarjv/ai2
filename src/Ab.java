@@ -27,19 +27,19 @@ public class Ab
 	    List<Integer> legalMoves = s.get_legal_moves();
 
 	    //Iterative deepening loop that increments the maximum depth by 1 in each loop
-	    for(int depth=4; depth < Integer.MAX_VALUE; depth++)
+	    for(int depth=0; depth < Integer.MAX_VALUE; depth++)
 	    {
 	    	//Check the timer by calculating elapsed nanoTime(), converting it to seconds and
 			//comparing with a little bit less time than playclock.. sek = 1*e⁹ nanosek
-	    	if((System.nanoTime() - startTime)/Math.pow(10, 9) >= playclock-1)
-	    		break;
+	    	//if((System.nanoTime() - startTime)/Math.pow(10, 9) >= playclock-1)
+	    	//	break;
 
 		    for(int move : legalMoves)
 		    {
 		    	//Check the timer by calculating elapsed nanoTime(), converting it to seconds and
 				//comparing with a little bit less time than playclock.. sek = 1*e⁹ nanosek
-		    	if((System.nanoTime() - startTime)/Math.pow(10, 9) >= playclock-1)
-		    		break;
+		   // 	if((System.nanoTime() - startTime)/Math.pow(10, 9) >= playclock-1)
+		    //		break;
 
 				int result = AbSearch(s.next_state(move, isWhite), depth, Integer.MIN_VALUE, Integer.MAX_VALUE, false);
 				
@@ -48,6 +48,10 @@ public class Ab
 		    		bestResult = result;
 					bestMove = move;
 		    	}
+		    	
+		    	//if we have the winning state by making this move
+		    	if(result == Integer.MAX_VALUE)
+		    		return bestMove;
 			}
 		}
 		
@@ -138,7 +142,7 @@ public class Ab
 		//If the game is won check for winner and return correct value
 		if(s.isFinal() && !s.isDraw())
 		{
-			if(isMax)
+			if(!isMax)
 				return Integer.MAX_VALUE;
 			else
 				return Integer.MIN_VALUE;
@@ -156,10 +160,10 @@ public class Ab
 	public static void main(String args[])
 	{
 		State s = new State(0, 0);
-		Ab ab = new Ab(10, true);		
+		Ab ab = new Ab(10, false);		
 		Scanner input = new Scanner(System.in);
 
-		for(int i = 0; i < 6; i++)
+		for(int i = 0; i < 7; i++)
 			s = s.next_state(input.nextInt(), i % 2 == 0);
 
 		System.out.println("next move is: " + ab.search(s));
