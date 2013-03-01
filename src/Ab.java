@@ -15,7 +15,7 @@ public class Ab
 
 	public int search(State s)
 	{
-		System.out.println("we are in Absearch");
+		//System.out.println("we are in Absearch");
 		startTime = System.nanoTime();
 
 		//Call AbSearch for every child of the state with 
@@ -31,7 +31,7 @@ public class Ab
 	    //Iterative deepening loop that increments the maximum depth by 1 in each loop
 	    for(int depth=1; depth < Integer.MAX_VALUE; depth++)
 	    {
-			System.out.println("the depth is " + depth + "");
+			//System.out.println("the depth is " + depth + "");
 	    	//Check the timer by calculating elapsed nanoTime(), converting it to seconds and
 			//comparing with a little bit less time than playclock.. sek = 1*e⁹ nanosek
 	    	if((System.nanoTime() - startTime)/Math.pow(10, 9) >= playclock-1)
@@ -50,52 +50,6 @@ public class Ab
 			}
 		}
 		return bestMove;
-	}
-
-	public int evaluate(State s)
-	{
-		long red = s.red;
-		int redCount = 0;
-
-		for(int i = 0; i < 48; i++) //grid 49 is unused
-		{
-			long mask = 1L << i;
-			// We calculate only for set bits. 
-			if((mask & red) == 0)
-				continue;
-
-			System.out.println(i);
-
-			// We use unsigned shift to check all adjacent squares.
-			// Because of the buffer, then we do not need to check for edge cases.
-			// The diligent reader can check for himself that this work.
-			if((mask & (  red << 1 | red << 6 | red << 7 | red << 8
-					   | red >>> 1 | red >>> 6 | red >>> 7 | red >>> 8)) != 0 )
-				redCount++;
-		}
-
-		int whiteCount = 0;
-		long white = s.white;
-
-		for(int i = 0; i < 48; i++) //grid 49 is unused
-		{
-			long mask = 1L << i;
-			// We calculate only for set bits. 
-			if((mask & white) == 0)
-				continue;
-
-			System.out.println(i);
-
-			// We use unsigned shift to check all adjacent squares.
-			// Because of the buffer, then we do not need to check for edge cases.
-			// The diligent reader can check for himself that this work.
-			if((mask & (  white << 1 | white << 6 | white << 7 | white << 8
-					   | white >>> 1 | white >>> 6 | white >>> 7 | white >>> 8)) != 0 )
-				whiteCount++;
-		}
-
-
-		return whiteCount - redCount;
 	}
 
 	public int AbSearch(State s, int depth, int a, int b, boolean isMax)
@@ -138,6 +92,54 @@ public class Ab
 	    	return b; 
 		}
 	}
+
+	public int evaluate(State s)
+	{
+		long red = s.red;
+		int redCount = 0;
+
+		for(int i = 0; i < 48; i++) //grid 49 is unused
+		{
+			long mask = 1L << i;
+			// We calculate only for set bits. 
+			if((mask & red) == 0)
+				continue;
+
+
+			// We use unsigned shift to check all adjacent squares.
+			// Because of the buffer, then we do not need to check for edge cases.
+			// The diligent reader can check for himself that this work.
+			if((mask & (  red << 1 | red << 6 | red << 7 | red << 8
+					   | red >>> 1 | red >>> 6 | red >>> 7 | red >>> 8)) != 0 )
+				redCount++;
+		}
+
+		int whiteCount = 0;
+		long white = s.white;
+
+		for(int i = 0; i < 48; i++) //grid 49 is unused
+		{
+			long mask = 1L << i;
+			// We calculate only for set bits. 
+			if((mask & white) == 0)
+				continue;
+
+			// We use unsigned shift to check all adjacent squares.
+			// Because of the buffer, then we do not need to check for edge cases.
+			// The diligent reader can check for himself that this work.
+			if((mask & (  white << 1 | white << 6 | white << 7 | white << 8
+					   | white >>> 1 | white >>> 6 | white >>> 7 | white >>> 8)) != 0 )
+				whiteCount++;
+		}
+
+		int evaluation = whiteCount - redCount;
+
+		if(isWhite)
+			return evaluation;
+		else
+			return -evaluation;
+	}
+
 
 	public static void main(String args[])
 	{

@@ -29,7 +29,6 @@ public class OurAgent implements Agent
 	// lastDrop is 0 for the first call of nextAction (no action has been executed),
 	// otherwise it is a number n with 0<n<8 indicating the column that the last piece was dropped in by the player whose turn it was
     public String nextAction(int lastDrop) { 
-		System.out.println("We are in OurAgent");
 		if(lastDrop != 0)
 		{
 			if(myTurn)
@@ -38,15 +37,11 @@ public class OurAgent implements Agent
 				s = s.next_state(lastDrop, isWhite);
 		}
 
-		System.out.println("22222We are in OurAgent");
 		myTurn = !myTurn;
 
-		System.out.println("3333322222We are in OurAgent");
 		if (myTurn) {
-		System.out.println("444422222We are in OurAgent");
 			return "(DROP " + ab.search(s) + ")";
 		} else {
-		System.out.println("5555444422222We are in OurAgent");
 			return "NOOP";
 		}
 	}
