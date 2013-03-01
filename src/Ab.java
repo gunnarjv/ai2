@@ -29,24 +29,27 @@ public class Ab
 
 		System.out.println("we are in Absearch");
 	    //Iterative deepening loop that increments the maximum depth by 1 in each loop
-	    for(int depth=1; depth < Integer.MAX_VALUE; depth++)
+	    for(int depth=1; depth < 15; depth++)
 	    {
 	    	//Check the timer by calculating elapsed nanoTime(), converting it to seconds and
 			//comparing with a little bit less time than playclock.. sek = 1*e⁹ nanosek
-	    	if((System.nanoTime() - startTime)/Math.pow(10, 9) >= playclock-1)
-	    		break;
+	    //	if((System.nanoTime() - startTime)/Math.pow(10, 9) >= playclock-1)
+	    	//	break;
 
 		    for(int move : legalMoves)
 		    {
 		    	//Check the timer by calculating elapsed nanoTime(), converting it to seconds and
 				//comparing with a little bit less time than playclock.. sek = 1*e⁹ nanosek
-		    	if((System.nanoTime() - startTime)/Math.pow(10, 9) >= playclock-1)
-		    		break;
+		   // 	if((System.nanoTime() - startTime)/Math.pow(10, 9) >= playclock-1)
+		    //		break;
 
 				int result = AbSearch(s.next_state(move, isWhite), depth, Integer.MIN_VALUE, Integer.MAX_VALUE, false);
 				
 		    	if(result > bestResult)
+		    	{
+		    		bestResult = result;
 					bestMove = move;
+		    	}
 			}
 		}
 		
@@ -56,8 +59,7 @@ public class Ab
 	public int AbSearch(State s, int depth, int a, int b, boolean isMax)
 	{       
 		//Check if we should go further down the tree
-		//We also check here as if the time is almost over
-	    if(depth == 0 || s.isFinal() || (System.nanoTime() - startTime)/Math.pow(10, 9) >= playclock-1)
+	    if(depth == 0 || s.isFinal())
 	        return evaluate(s);
 
 	    List<Integer> legalMoves = s.get_legal_moves();
@@ -79,8 +81,8 @@ public class Ab
 	    }
 	    else
 	    {
-	    	//For each child state calculate alpha value by calling AbSearch recursively
-	    	//and make alpha the largest value of the outcome
+	    	//For each child state calculate beta value by calling AbSearch recursively
+	    	//and make beta the smallest value of the outcome
 	    	//Then to do the pruning check if a >= b and if so we can break out of the for loop
 	        
 	        for(int move : legalMoves)
@@ -133,7 +135,7 @@ public class Ab
 				whiteCount++;
 		}
 
-		int evaluation = whiteCount;// - redCount;
+		int evaluation = whiteCount - redCount;
 
 		if(isWhite)
 			return evaluation;
