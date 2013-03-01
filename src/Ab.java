@@ -31,15 +31,15 @@ public class Ab
 	    {
 	    	//Check the timer by calculating elapsed nanoTime(), converting it to seconds and
 			//comparing with a little bit less time than playclock.. sek = 1*e⁹ nanosek
-	    	//if((System.nanoTime() - startTime)/Math.pow(10, 9) >= playclock-1)
-	    	//	break;
+	    	if((System.nanoTime() - startTime)/Math.pow(10, 9) >= playclock-1)
+	    		break;
 
 		    for(int move : legalMoves)
 		    {
 		    	//Check the timer by calculating elapsed nanoTime(), converting it to seconds and
 				//comparing with a little bit less time than playclock.. sek = 1*e⁹ nanosek
-		   // 	if((System.nanoTime() - startTime)/Math.pow(10, 9) >= playclock-1)
-		    //		break;
+		    	if((System.nanoTime() - startTime)/Math.pow(10, 9) >= playclock-1)
+		    		break;
 
 				int result = AbSearch(s.next_state(move, isWhite), depth, Integer.MIN_VALUE, Integer.MAX_VALUE, false);
 				
