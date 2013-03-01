@@ -70,9 +70,10 @@ public class State
 
 	public boolean isFinal()
 	{
-		// The following is borrowed from John Tromp. http://homepages.cwi.nl/~tromp/c4/fhour.html
+		// The following is borrowed from John Tromp and modified.
+		// http://homepages.cwi.nl/~tromp/c4/fhour.html
 		// It would have taken us some ugly loops to implement this function.
-		long board = red | white;
+		long board = red;
 
 		long y = board & (board>>6);
 		if ((y & (y >> 2*6)) != 0) // check diagonal \
@@ -84,7 +85,25 @@ public class State
 		if ((y & (y >> 2*8)) != 0)
 			return true;
 		y = board & (board>>1); // check vertical |
-		return (y & (y >> 2)) != 0;
+		if((y & (y >> 2)) != 0)
+			return true;
+
+		board = white;
+
+		y = board & (board>>6);
+		if ((y & (y >> 2*6)) != 0) // check diagonal \
+			return true;
+		y = board & (board>>7);
+		if ((y & (y >> 2*7)) != 0) // check horizontal -
+			return true;
+		y = board & (board>>8); // check diagonal /
+		if ((y & (y >> 2*8)) != 0)
+			return true;
+		y = board & (board>>1); // check vertical |
+		if((y & (y >> 2)) != 0)
+			return true;
+	
+		return false;
 	}
 
 	public boolean equals(Object other)
@@ -105,8 +124,9 @@ public class State
 		for(int i = 0; i < 49; i++)
 		{
 			s = s.next_state(input.nextInt(), i % 2 == 0);
-			System.out.println("White: " + Long.toBinaryString(s.white));
-			System.out.println("Red: " + Long.toBinaryString(s.red));
+			System.out.println(s.isFinal());
+			//System.out.println("White: " + Long.toBinaryString(s.white));
+			//System.out.println("Red: " + Long.toBinaryString(s.red));
 			System.out.println("Both: " + Long.toBinaryString(s.white | s.red));
 		}
 
