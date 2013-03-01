@@ -99,7 +99,19 @@ public class State
 
 	public static void main(String args[])
 	{
-		// This code tests the functions.
+		Scanner input = new Scanner(System.in);
+		State s = new State();
+
+		for(int i = 0; i < 49; i++)
+		{
+			s = s.next_state(input.nextInt(), i % 2 == 0);
+			System.out.println("White: " + Long.toBinaryString(s.white));
+			System.out.println("Red: " + Long.toBinaryString(s.red));
+			System.out.println("Both: " + Long.toBinaryString(s.white | s.red));
+		}
+
+
+/*		// This code tests the functions.
 		State s = new State();
 
 		// Test get_legal_moves.
@@ -138,6 +150,6 @@ public class State
 		// Diagonal /
 		s.white = 0x1010101;
 		System.out.println("true->" + s.isFinal());
-	}
+*/	}
 
 }
