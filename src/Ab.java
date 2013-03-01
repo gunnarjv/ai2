@@ -33,16 +33,12 @@ public class Ab
 	    //Iterative deepening loop that increments the maximum depth by 1 in each loop
 	    for(int depth=1; depth < Integer.MAX_VALUE; depth++)
 	    {
-	    	//Check the timer by calculating elapsed nanoTime(), converting it to seconds and
-			//comparing with a little bit less time than playclock.. sek = 1*e⁹ nanosek
-	    	if((System.nanoTime() - startTime)/Math.pow(10, 9) >= playclock-1)
-	    		break;
-
 		    for(int move : legalMoves)
 		    {
-		    	//We check here as well if the time is almost over
-	    		if((System.nanoTime() - startTime)/Math.pow(10, 9) >= playclock-1)
-	    			break;
+		    	//Check the timer by calculating elapsed nanoTime(), converting it to seconds and
+				//comparing with a little bit less time than playclock.. sek = 1*e⁹ nanosek
+		    	if((System.nanoTime() - startTime)/Math.pow(10, 9) >= playclock-1)
+		    		break;
 
 				int result = AbSearch(s.next_state(move, isWhite), depth, Integer.MIN_VALUE, Integer.MAX_VALUE, false);
 				
@@ -52,6 +48,7 @@ public class Ab
 					bestMove = move;
 			}
 		}
+		
 		return bestMove;
 	}
 
