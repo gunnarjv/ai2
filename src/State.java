@@ -109,7 +109,11 @@ public class State
 		y = board & (board>>1); // check vertical |
 		if((y & (y >> 2)) != 0)
 			return true;
-	
+
+		// Check if tie.
+		if((red | white) == 0xfdfbf7efdfbfL)
+			return true;
+
 		return false;
 	}
 
