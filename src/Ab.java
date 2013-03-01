@@ -15,21 +15,19 @@ public class Ab
 
 	public int search(State s)
 	{
-		//Take the startTime
+		//System.out.println("we are in Absearch");
 		startTime = System.nanoTime();
 
 		//Call AbSearch for every child of the state with 
 		//increasing depth size and return the best move (column number for best drop)
 
-		//The bestMove the player can find for the state
 		int bestMove = 0;
 
-		//The best result returned from search
 		int bestResult = Integer.MIN_VALUE;
 
-		//Get legal moves for the state
 	    List<Integer> legalMoves = s.get_legal_moves();
 
+		System.out.println("we are in Absearch");
 	    //Iterative deepening loop that increments the maximum depth by 1 in each loop
 	    for(int depth=1; depth < Integer.MAX_VALUE; depth++)
 	    {
@@ -42,14 +40,53 @@ public class Ab
 
 				int result = AbSearch(s.next_state(move, isWhite), depth, Integer.MIN_VALUE, Integer.MAX_VALUE, false);
 				
-				//If the result for this child is greater than previous best result
-		    	//make bestMove the new result
 		    	if(result > bestResult)
 					bestMove = move;
 			}
 		}
 		
 		return bestMove;
+	}
+
+	public int AbSearch(State s, int depth, int a, int b, boolean isMax)
+	{       
+		//Check if we sould go further down the tree
+		//We also check here as if the time is almost over
+	    if(depth == 0 || s.isFinal() || (System.nanoTime() - startTime)/Math.pow(10, 9) >= playclock-1)
+	        return evaluate(s);
+
+	    List<Integer> legalMoves = s.get_legal_moves();
+
+	    //If player is the first player (MAX)
+	    if(isMax)
+	    {
+	    	//For each child state calculate alpha value by callin AbSearch recursively
+	    	//and make alpha the largest value of the outcome
+	    	//Then to do the pruning check if a >= b and if so we can break out of the for loop
+	        for(int move : legalMoves)
+	        {
+	            a = Math.max(a, AbSearch(s.next_state(move, isWhite), depth-1, a, b, !isMax));
+	            if(b <= a)
+	                break;
+	        }
+
+	        return a;
+	    }
+	    else
+	    {
+	    	//For each child state calculate alpha value by callin AbSearch recursively
+	    	//and make alpha the largest value of the outcome
+	    	//Then to do the pruning check if a >= b and if so we can break out of the for loop
+	        
+	        for(int move : legalMoves)
+	        {
+	            b = Math.min(b, AbSearch(s.next_state(move, !isWhite), depth-1, a, b, !isMax));
+	            if(b <= a)
+	                break;
+	        }
+	    
+	    	return b; 
+		}
 	}
 
 	public int evaluate(State s)
@@ -64,7 +101,6 @@ public class Ab
 			if((mask & red) == 0)
 				continue;
 
-			System.out.println(i);
 
 			// We use unsigned shift to check all adjacent squares.
 			// Because of the buffer, then we do not need to check for edge cases.
@@ -84,8 +120,6 @@ public class Ab
 			if((mask & white) == 0)
 				continue;
 
-			System.out.println(i);
-
 			// We use unsigned shift to check all adjacent squares.
 			// Because of the buffer, then we do not need to check for edge cases.
 			// The diligent reader can check for himself that this work.
@@ -94,53 +128,14 @@ public class Ab
 				whiteCount++;
 		}
 
+		int evaluation = whiteCount - redCount;
 
-		return whiteCount - redCount;
+		if(isWhite)
+			return evaluation;
+		else
+			return -evaluation;
 	}
 
-	public int AbSearch(State s, int depth, int a, int b, boolean isMax)
-	{       
-		//Check if we sould go further down the tree
-		//We also check here as if the time is almost over
-	    if(depth == 0 || s.isFinal() || (System.nanoTime() - startTime)/Math.pow(10, 9) >= playclock-1)
-	        return evaluate(s);
-
-	    //Get legal moves for the state
-	    List<Integer> legalMoves = s.get_legal_moves();
-
-	    //If player is the first player (MAX)
-	    if(isMax)
-	    {
-	    	//For each child state calculate alpha value by callin AbSearch recursively
-	    	//and make alpha the largest value of the outcome
-	    	//Then to do the pruning check if a >= b and if so we can break out of the for loop
-	        for(int move : legalMoves)
-	        {
-	            a = Math.max(a, AbSearch(s.next_state(move, isWhite), depth-1, a, b, !isMax));
-	            if(b <= a)
-	                break;
-	        }
-
-	        return a;
-	    }
-
-	    //If player is the second player (MIN)
-	    else
-	    {
-	    	//For each child state calculate alpha value by callin AbSearch recursively
-	    	//and make alpha the largest value of the outcome
-	    	//Then to do the pruning check if a >= b and if so we can break out of the for loop
-	        
-	        for(int move : legalMoves)
-	        {
-	            b = Math.min(b, AbSearch(s.next_state(move, !isWhite), depth-1, a, b, !isMax));
-	            if(b <= a)
-	                break;
-	        }
-	    
-	    	return b; 
-		}
-	}
 
 	public static void main(String args[])
 	{
@@ -160,6 +155,11 @@ public class Ab
 		
 		s.red = 0xb00000000000L;
 		System.out.println(ab.evaluate(s) + " (2)");
+
+		s.white = 0xb00000000000L;
+		s.red = 0;
+		System.out.println(ab.evaluate(s) + " (2)");
+
 
 
 	}
