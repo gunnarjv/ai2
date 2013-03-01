@@ -15,6 +15,7 @@ public class Ab
 
 	public int search(State s)
 	{
+		System.out.println("we are in Absearch");
 		startTime = System.nanoTime();
 
 		//Call AbSearch for every child of the state with 
@@ -26,9 +27,11 @@ public class Ab
 
 	    List<Integer> legalMoves = s.get_legal_moves();
 
+		System.out.println("we are in Absearch");
 	    //Iterative deepening loop that increments the maximum depth by 1 in each loop
 	    for(int depth=1; depth < Integer.MAX_VALUE; depth++)
 	    {
+			System.out.println("the depth is " + depth + "");
 	    	//Check the timer by calculating elapsed nanoTime(), converting it to seconds and
 			//comparing with a little bit less time than playclock.. sek = 1*e⁹ nanosek
 	    	if((System.nanoTime() - startTime)*Math.pow(10, 9) >= playclock-1)
@@ -158,7 +161,7 @@ public class Ab
 
 		s.white = 0xb00000000000L;
 		s.red = 0;
-		System.out.println(ab.evaluate(s, true) + " (2)");
+		System.out.println(ab.evaluate(s) + " (2)");
 
 
 
