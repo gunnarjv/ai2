@@ -59,7 +59,7 @@ public class Ab
 	{       
 		//Check if we should go further down the tree
 	    if(depth == 0 || s.isFinal())
-	        return evaluate(s);
+	        return evaluate(s, isMax);
 
 	    List<Integer> legalMoves = s.get_legal_moves();
 
@@ -95,7 +95,7 @@ public class Ab
 		}
 	}
 
-	public int evaluate(State s)
+	public int evaluate(State s, boolean isMax)
 	{
 		long red = s.red;
 		int redCount = 0;
@@ -134,7 +134,18 @@ public class Ab
 				whiteCount++;
 		}
 
-		int evaluation = whiteCount - redCount;
+		int evaluation = 0;
+		
+		//If the game is won check for winner and return correct value
+		if(s.isFinal() && !s.isDraw())
+		{
+			if(isMax)
+				return Integer.MAX_VALUE;
+			else
+				return Integer.MIN_VALUE;
+		}
+		
+		evaluation = whiteCount - redCount;
 
 		if(isWhite)
 			return evaluation;
@@ -143,7 +154,7 @@ public class Ab
 	}
 
 
-	public static void main(String args[])
+/*	public static void main(String args[])
 	{
 		State s = new State(0, 0x1F);
 		Ab ab = new Ab(0, true);
@@ -168,5 +179,5 @@ public class Ab
 
 
 
-	}
+	} */
 }
