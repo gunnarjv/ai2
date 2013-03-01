@@ -47,6 +47,13 @@ public class State
 		   chosen column. If that bit is not set, that bit is set in the current player's mask.
 		   If it is not set, we search the lots above.
 		*/
+
+		if(move < 1 || move > 7)
+		{
+			System.out.println("illegal number in next_state. Exiting. ");
+			System.exit(1);
+		}
+
 		long board = white | red;
 		long column_bit = 1L << 7*(move-1);
 
