@@ -110,19 +110,19 @@ public class State
 		if((y & (y >> 2)) != 0)
 			return true;
 
-		// Check if tie.
+		/* Check if tie.
 		if((red | white) == 0xfdfbf7efdfbfL)
-			return true;
+			return true;*/
 
 		return false;
 	}
 
-	public boolean isDraw()
+	/*public boolean isDraw()
 	{
 		if((red | white) == 0xfdfbf7efdfbfL)
 			return true;
 		return false;
-	}
+	}*/
 
 	public boolean equals(Object other)
 	{

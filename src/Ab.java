@@ -6,6 +6,7 @@ public class Ab
 	private double playclock;
 	private long startTime = 0;
 	private boolean isWhite;
+	public int stateExpansions = 0;
 
 	public Ab(int playclock, boolean isWhite)
 	{
@@ -16,7 +17,8 @@ public class Ab
 	public int search(State s)
 	{
 		startTime = System.nanoTime();
-
+		stateExpansions = 0;
+		
 		//Call AbSearch for every child of the state with 
 		//increasing depth size and return the best move (column number for best drop)
 
@@ -36,6 +38,7 @@ public class Ab
 
 		    for(int move : legalMoves)
 		    {
+		    	stateExpansions++;
 		    	//Check the timer by calculating elapsed nanoTime(), converting it to seconds and
 				//comparing with a little bit less time than playclock.. sek = 1*e⁹ nanosek
 		    	if((System.nanoTime() - startTime)/Math.pow(10, 9) >= playclock-1)
@@ -55,6 +58,9 @@ public class Ab
 			}
 		}
 		
+	    //Print out state expansions per second
+	    double printStateExp = stateExpansions/((System.nanoTime() - startTime)/Math.pow(10, 9));
+	    System.out.println("State expanions per second: " + printStateExp);
 		return bestMove;
 	}
 
@@ -74,6 +80,7 @@ public class Ab
 	    	//Then to do the pruning check if a >= b and if so we can break out of the for loop
 	        for(int move : legalMoves)
 	        {
+	        	stateExpansions++;
 	            a = Math.max(a, AbSearch(s.next_state(move, isWhite), depth-1, a, b, !isMax));
 	            if(b <= a)
 	                break;
@@ -89,6 +96,7 @@ public class Ab
 	        
 	        for(int move : legalMoves)
 	        {
+	        	stateExpansions++;
 	            b = Math.min(b, AbSearch(s.next_state(move, !isWhite), depth-1, a, b, !isMax));
 	            if(b <= a)
 	                break;
@@ -156,7 +164,7 @@ public class Ab
 		int evaluation = 0;
 		
 		//If the game is won check for winner and return correct value
-		if(s.isFinal() && !s.isDraw())
+		if(s.isFinal())// && !s.isDraw())
 		{
 			if(!isMax)
 				return Integer.MAX_VALUE;
@@ -164,7 +172,7 @@ public class Ab
 				return Integer.MIN_VALUE;
 		}
 		
-		evaluation = (whiteCount - redCount) + (whiteColumns - redColumns + whiteRows - redRows)/2;
+		evaluation = (whiteCount - redCount);// + (whiteColumns - redColumns + whiteRows - redRows)/2;
 
 		if(isWhite)
 			return evaluation;
