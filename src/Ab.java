@@ -102,6 +102,11 @@ public class Ab
 	{
 		long red = s.red;
 		int redCount = 0;
+		// The following is the number of chips that are adjacent to 
+		// two other chips in a row; three in a row.
+		int redColumns = 0;
+		int redRows = 0;
+
 
 		for(int i = 0; i < 48; i++) //grid 49 is unused
 		{
@@ -110,7 +115,11 @@ public class Ab
 			if((mask & red) == 0)
 				continue;
 
-
+			if((mask & ( red << 1 & red << 2)) != 0)
+				redColumns++;
+			if((mask & (( red << 6 & red << 12 ) | (red >>> 6 & red >>> 12 ))) != 0)
+				redRows++;
+	
 			// We use unsigned shift to check all adjacent squares.
 			// Because of the buffer, then we do not need to check for edge cases.
 			// The diligent reader can check for himself that this work.
@@ -121,6 +130,8 @@ public class Ab
 
 		int whiteCount = 0;
 		long white = s.white;
+		int whiteColumns = 0; 
+		int whiteRows = 0; 
 
 		for(int i = 0; i < 48; i++) //grid 49 is unused
 		{
@@ -128,6 +139,11 @@ public class Ab
 			// We calculate only for set bits. 
 			if((mask & white) == 0)
 				continue;
+
+			if((mask & ( red << 1 & red << 2)) != 0)
+				whiteColumns++;
+			if((mask & (( red << 6 & red << 12 ) | (red >>> 6 & red >>> 12 ))) != 0)
+				whiteRows++;
 
 			// We use unsigned shift to check all adjacent squares.
 			// Because of the buffer, then we do not need to check for edge cases.
@@ -148,7 +164,7 @@ public class Ab
 				return Integer.MIN_VALUE;
 		}
 		
-		evaluation = whiteCount - redCount;
+		evaluation = (whiteCount - redCount) + (whiteColumns - redColumns + whiteRows - redRows)/2;
 
 		if(isWhite)
 			return evaluation;
