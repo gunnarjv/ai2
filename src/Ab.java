@@ -5,9 +5,11 @@ public class Ab
 {
 	private double playclock;
 	private long startTime = 0;
+	private boolean isWhite;
 
-	public Ab(int playclock)
+	public Ab(int playclock, boolean isWhite)
 	{
+		this.isWhite = isWhite;
 		this.playclock = (double)playclock;
 	}
 
@@ -42,7 +44,7 @@ public class Ab
 	    		if((System.nanoTime() - startTime)*Math.pow(10, 9) >= playclock-1)
 	    			break;
 
-				int result = AbSearch(s.next_state(move,true), depth, Integer.MIN_VALUE, Integer.MAX_VALUE, false);
+				int result = AbSearch(s.next_state(move, isWhite), depth, Integer.MIN_VALUE, Integer.MAX_VALUE, false);
 				
 				//If the result for this child is greater than previous best result
 		    	//make bestMove the new result
@@ -53,7 +55,7 @@ public class Ab
 		return bestMove;
 	}
 
-	public int evaluate(State s, boolean isMax)
+	public int evaluate(State s)
 	{
 		long red = s.red;
 		int redCount = 0;
@@ -105,7 +107,7 @@ public class Ab
 		//We also check here as if the time is almost over
 		System.out.println((System.nanoTime() - startTime)*Math.pow(10, 9));
 	    if(depth == 0 || s.isFinal() || (System.nanoTime() - startTime)*Math.pow(10, 9) >= playclock-1)
-	        return evaluate(s, isMax);
+	        return evaluate(s);
 
 	    //Get legal moves for the state
 	    List<Integer> legalMoves = s.get_legal_moves();
@@ -118,7 +120,7 @@ public class Ab
 	    	//Then to do the pruning check if a >= b and if so we can break out of the for loop
 	        for(int move : legalMoves)
 	        {
-	            a = Math.max(a, AbSearch(s.next_state(move,true), depth-1, a, b, !isMax));
+	            a = Math.max(a, AbSearch(s.next_state(move, isWhite), depth-1, a, b, !isMax));
 	            if(b <= a)
 	                break;
 	        }
@@ -135,7 +137,7 @@ public class Ab
 	        
 	        for(int move : legalMoves)
 	        {
-	            b = Math.min(b, AbSearch(s.next_state(move,false), depth-1, a, b, !isMax));
+	            b = Math.min(b, AbSearch(s.next_state(move, !isWhite), depth-1, a, b, !isMax));
 	            if(b <= a)
 	                break;
 	        }
@@ -147,21 +149,21 @@ public class Ab
 	public static void main(String args[])
 	{
 		State s = new State(0, 0x1F);
-		Ab ab = new Ab(0);
+		Ab ab = new Ab(0, true);
 
-		System.out.println(ab.evaluate(s, true) + " (5)");
+		System.out.println(ab.evaluate(s) + " (5)");
 
 		s.red = 0x1B;
-		System.out.println(ab.evaluate(s, true) + " (4)");
+		System.out.println(ab.evaluate(s) + " (4)");
 
 		s.red = 0x9B;
-		System.out.println(ab.evaluate(s, true) + " (5)");
+		System.out.println(ab.evaluate(s) + " (5)");
 
 		s.red = 0x1009B;
-		System.out.println(ab.evaluate(s, true) + " (5)");
+		System.out.println(ab.evaluate(s) + " (5)");
 		
 		s.red = 0xb00000000000L;
-		System.out.println(ab.evaluate(s, true) + " (2)");
+		System.out.println(ab.evaluate(s) + " (2)");
 
 
 	}
