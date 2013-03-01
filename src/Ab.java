@@ -105,7 +105,6 @@ public class Ab
 	{       
 		//Check if we sould go further down the tree
 		//We also check here as if the time is almost over
-		System.out.println((System.nanoTime() - startTime)*Math.pow(10, 9));
 	    if(depth == 0 || s.isFinal() || (System.nanoTime() - startTime)*Math.pow(10, 9) >= playclock-1)
 	        return evaluate(s);
 
