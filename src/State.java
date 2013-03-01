@@ -117,6 +117,13 @@ public class State
 		return false;
 	}
 
+	public boolean isDraw()
+	{
+		if((red | white) == 0xfdfbf7efdfbfL)
+			return true;
+		return false;
+	}
+
 	public boolean equals(Object other)
 	{
 		if(other == this) return true;
