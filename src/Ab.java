@@ -20,14 +20,14 @@ public class Ab
 		//Call AbSearch for every child of the state with 
 		//increasing depth size and return the best move (column number for best drop)
 
-		int bestMove = 0;
+		int bestMove = 666;
 
 		int bestResult = Integer.MIN_VALUE;
 
 	    List<Integer> legalMoves = s.get_legal_moves();
 
 	    //Iterative deepening loop that increments the maximum depth by 1 in each loop
-	    for(int depth=1; depth < Integer.MAX_VALUE; depth++)
+	    for(int depth=4; depth < Integer.MAX_VALUE; depth++)
 	    {
 	    	//Check the timer by calculating elapsed nanoTime(), converting it to seconds and
 			//comparing with a little bit less time than playclock.. sek = 1*e⁹ nanosek
