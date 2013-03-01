@@ -48,7 +48,7 @@ public class State
 		   If it is not set, we search the lots above.
 		*/
 		long board = white | red;
-		long column_bit = 1 << 7*(move-1);
+		long column_bit = 1L << 7*(move-1);
 
 		for(int i = 0; i < 6; i++)
 		{
